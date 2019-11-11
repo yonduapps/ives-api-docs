@@ -3,113 +3,82 @@ Getting Started
 
 **Subscriber Consent Workflow**
 
-Access Tokens are required in order to transact (SMS, Voice or Charging API) with a subscriber.
-To get the access token, the subscribers need to grant the developer app in either two ways:
+Access Tokens are required in order to navigate and do transactions on IVES.
+To get the access token, the subscriber needs to login via **POST request**:
 
-- via SMS
-- via Web Form (OAuth 2.0)
+### Get an Access token
 
-### Create An App
-
-After successful registration and login, create an app at http://developer.globelabs.com.ph/apps/new or by clicking the **Create App** button.  
-
-In order to create an app, user must fill out a minimum of required fields which are the following:
-
-- Name - Application name, this will be included in the 'welcome message' sent to the subcriber.
-
-- Short Description -  A short description that will also be included in the 'welcome message' sent to the subscriber.
-
-- Email Support - Valid Email address for contact that will also be included in the 'welcome message' sent to the subscriber.
-
-- Category - Select a category for this app.
-
-- Redirect URI - This link will receive the **Code** parameter if via web form, or **Access Token** if via SMS.
-
-  **Code** parameter: required to get your subscriber's Access Token. This is sent to your Redirect URI, and **access it via GET**.
-
-  **Access Token**: required to use the API.
-
-- API Type - Upon selection of the API type, there are certain API's that may require new fields:
-  
-  **SMS**
-
-  - Notify URI - Everytime your short code receives a message, this link will receive the data in JSON format.
-
-  **Voice**
-
-  - Voice URI - Either in Scripting or WEB API; this contains your code/commands to be accessed.
-
-After creation, your app will have its own **Short Code**.
-
-### Redirect and Notify URI
-
-The following are the minimum expectations for your app's Redirect and Notify URI:
-
-1. Your URIs must be either a publicly accessible domain or web server i.e. no SSL certificate verification required
-2. Your URIs can perform basic HTTP Server functionalities. At the minimum, our platform expects an HTTP Status Code 200 response from your URIs for every HTTP request sent.
-
-### Opt-in via SMS
-
-1.  Subscribers need to text **INFO** to your **Short Code**.
-    
-    **Short Code** provided to your app after creation, see your app's details. 
-
-2.  Upon receipt of the **‘welcome message’**, the subscriber needs to reply **YES**.
-    
-    **Welcome Message** - welcome message mentioned in the Create App Section.
-
-3.  After the subscriber replies (Yes), the **Access Token** and the **Subscriber’s mobile number** will be sent to your **Redirect URI**, you can get these parameters via GET method.
-
-###### Sample GET to Redirect URI
-
-```javascript
-GET /?access_token=E1enKbxfLBUH7b_1E500G_V16fM-Yxmm1VHAR15Re9I&subscriber_number=9179471234 HTTP/1.1
+Use <span class="method">POST</span> method on this URI:
+```
+/api/v1/auth/login
 ```
 
-### Opt-in via Webform
+###### Representation Formats
 
-1.  Platform redirects your subscribers to this url:
-    ```javascript
-    https://developer.globelabs.com.ph/dialog/oauth/<APP_ID_HERE>
-    ```
+For the Globe Labs API SMS, it is implemented
+using application/json.
 
-2.  The page will ask to key-in the subscriber’s mobile number and subscriber clicks the Grant button.
+###### Request Body or Payload Parameters
 
-3.  The page will be redirected, and an SMS with confirmation pin will be sent to the subscriber.
+| Parameter | Usage |
+| ----------|-------|
+| _string_ **email** refers to the email of your account on IVES | Required |
+| _string_ **password** refers to the password of your account on IVES| Required |
 
-4.  The subscriber needs to key-in on the page the received confirmation pin and click the button Confirm to authorize the subscriber.
+###### Sample POST Request using Postmant
 
-5.  The page will then be redirected to the redirect_uri of your application, and a **Code** parameter will be passed as a URL query parameter to it.
-
-6.  To get the access token, you need to do a POST request via https://developer.globelabs.com.ph/oauth/access_token with your ‘**app_id**’, ‘**app_secret**’ and ‘**code**’ as URL query parameters. The parameters ‘**access_token**’ and ‘**subscriber_number**’ will then be returned to your **Redirect URI** as a response.
-
-###### Code as URL Parameter
-
-```javascript
-http://www.sample-redirect-url.com/?code=bLfXLEL9CM8nReI78kxAI7ra56hrBzrBsyonbkIzepngUdrKKyC5Mp5ahgKLAzF9z76RfA4rjrsaAdqeCBkGrMF4MA6MfK6bkGsB89onSL9ER6sbr5yGCzMa8RfA7TzAbqKTa6EfaE5BzCK7ErMsMK9LpSnobejsxrALxfE9GkzFGEdEaCj6rLXsL578RfdyL9rFkbp49hXxK7pCejpAgUyXnj7Ij4zdbsLpar9hKzkA8IEdneMIpjE45CaXjE7f
-```                                                                                                                                                                                                                                                                                                                                                            
-###### Sample POST to get Access Token
-
-```javascript
-POST -x 'https://developer.globelabs.com.ph/oauth/access_token?app_id=<APP ID>&app_secret=<APP SECRET>&code=<CODE>'
+```
+curl -X POST \
+  https://ives.ph/api/v1/auth/login \
+  -H 'Accept: */*' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Length: 298' \
+  -H 'Content-Type: multipart/form-data; boundary=--------------------------681062962588880388344671' \
+  -H 'Cookie: _ives_session=ZG9aNUZnWTJjY2VIVkdaMVg0Z3U1RWFSVFpibFBadE1oTDJnUlNNeGc5ZzNuc2w3ck5ORHpadExxbjU5eDlDUFc5Um1TWTlpLzgwWXJyY1Uvbjd2cHZnS1VRSmh0KzJ2dXlaQi9xNDAyNzZLQVoybjJsamFCUFFFeHdockNwUlhEQmNTdUJEVU8rS1M3a2FpV3k3bkZBPT0tLUw5ejJsT1g3RS9rcnphTERXQlR4VFE9PQ%3D%3D--a06be212c01929d70b6f9ce3207b36d521217ac9' \
+  -H 'Host: ives.ph' \
+  -H 'Postman-Token: 3221bd41-6882-43a4-9727-75c463ffc151,03b8c470-c5fd-4ee4-9446-c91bd238b16d' \
+  -H 'User-Agent: PostmanRuntime/7.19.0' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F email=yourivesaccountemail@email.com \
+  -F 'password=yourivesaccountpassword'
 ```
 
-### Stop Subscription
-
-If ever a subscriber chooses to opt-out or unsubscribe to your application. They will need to text in STOP to your shortcode ('STOPSVC' for cross-telco). After stopping the subscription, a json data will be passed to your redirect_uri (POST) informing you that a subscriber had just unsubscribed to your service.
-
-json format:
+###### Sample Successful POST Response
 
 ```javascript
 {
-   "unsubscribed":{
-          "subscriber_number":"9171234567",                                                                                                      "access_token":"abcdefghijklmnopqrstuvwxyz",
-          "time_stamp": "2014-10-19T12:00:00"
-   }
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2LCJleHAiOjE1NzM1NDM3NTZ9.1xlUfIey7J-ocsTwnP3tQ6oRdankgfKvEDqtX_ndZcg",
+    "exp": "11-12-2019 15:29",
+    "email": "imirabueno@yondu.com"
 }
 ```
 
-SMS
+###### Response Parameters
+
+
+| Parameter 			 | Usage    |
+| -----------------------|----------|
+| **token** Specifies the body of the response. | Required |
+| **exp** Subscriber MSISDN (mobile number) whom the SMS was sent to. | |
+| **email** Refers to the application short code suffix (last 4 digits). | |
+
+###### Error Response
+
+```javascript
+{
+    "error": "unauthorized"
+}
+```
+
+INPROGRESS
+========================
+
+
+
+Campaigns
 ========================
 
 **Overview**
@@ -130,6 +99,7 @@ Use <span class="method">POST</span> method on this URI:
 ```
 https://devapi.globelabs.com.ph/smsmessaging/v1/outbound/{senderAddress}/requests?access_token={access_token}
 ```
+
 
 ###### Representation Formats
 
@@ -371,7 +341,7 @@ Data Coding Value | Description
 API requests with a response code of 201, 400 or 401 will be chargeable against your developer wallet. Standard SMS API rates apply, unless otherwise stated.
 
 
-USSD
+CALL FLOWS
 =====================
 
 **Overview**
