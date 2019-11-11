@@ -651,59 +651,6 @@ curl -X POST
 | _string_ **address** This is the subscriber MSISDN (mobile number), including the ‘tel:’ identifier. Parameter format can include the ‘+’ followed by country code  09xxxxxxxxx or 9xxxxxxxxx | Required |
 | _string_ **promo** This is the promo to be sent | Required |
 
-###### Sample Successful POST Response
-
-```json
-{
-  "outboundRewardRequest": {
-    "transaction_id": 1805759,
-    "status": "Please check your Rewards Callback URI for status",
-    "address": "9271051129",
-    "promo": "LOAD 50",
-    "timestamp": "Wed, Jun 06 2018 03:19:11 GMT+0000 (UTC)"
-  }
-}
-```
-| Parameter | Usage |
-| ----------|-------------|
-| _int_ **transaction_id** This is the unique identifier of the transaction | |
-| _string_ **status** This is the status of the transaction. Please note that the actual status is sent to your Callback URI | |
-| _string_ **address** This is the subscriber MSISDN (mobile number), including the ‘tel:’ identifier. Parameter format can include the ‘+’ followed by country code  09xxxxxxxxx or 9xxxxxxxxx | |
-| _string_ **promo** This is the promo code to be sent | |
-| _datetime_ **timestamp** This is the time the transaction was made | |
-
-###### Sample Callback
-
-The Load API Callback is sent via POST request to your Callback URI.
-
-```json
-{
-  "outboundRewardRequest": {
-    "status": "SUCCESS",
-    "promo": "LOAD 50",
-    "timestamp": "Wed, Jun 06 2018 03:19:11 GMT+0000 (UTC)"
-    "transaction_id": 1805759,
-    "address": "9271051129"
-  }
-}
-```
-
-### Error Codes
-
-| Status Code | Error Message |
-|-------------|---------------|
-| 200 | N/A |
-| 401 | Invalid App Secret |
-| 401 | App is not provisioned for Rewards |
-| 401 | Invalid Rewards Token |
-| 401 | App is not provisioned for this promo |
-| 403 | Insufficient Wallet Balance |
-| 403 | Your account is currently blocked. Please contact api@globe.com.ph for reactivation |
-| 403 | The subscriber is blacklisted |
-| 404 | App not found |
-| 404 | Invalid promo |
-| 500 | Something went wrong. Please try again in a while |
-
 
 USSD
 =====================
