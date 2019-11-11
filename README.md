@@ -15,7 +15,7 @@ Use <span class="method">POST</span> method on this URI:
 
 ###### Representation Formats
 
-For the Globe Labs API SMS, it is implemented
+For the IVES API, it is implemented
 using application/json.
 
 ###### Request Body or Payload Parameters
@@ -23,7 +23,7 @@ using application/json.
 | Parameter | Usage |
 | ----------|-------|
 | _string_ **email** refers to the email of your account on IVES | Required |
-| _string_ **password** refers to the password of your account on IVES| Required |
+| _string_ **password** refers to the password of your account on IVES | Required |
 
 ###### Sample POST Request using Postmant
 
@@ -50,20 +50,19 @@ curl -X POST \
 
 ```javascript
 {
-    "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2LCJleHAiOjE1NzM1NDM3NTZ9.1xlUfIey7J-ocsTwnP3tQ6oRdankgfKvEDqtX_ndZcg",
+    "token": "your_token_to_be_use_for_navigating_ives",
     "exp": "11-12-2019 15:29",
-    "email": "imirabueno@yondu.com"
+    "email": "yourivesaccountemail@email.com"
 }
 ```
 
 ###### Response Parameters
 
-
 | Parameter 			 | Usage    |
 | -----------------------|----------|
-| **token** Specifies the body of the response. | Required |
-| **exp** Subscriber MSISDN (mobile number) whom the SMS was sent to. | |
-| **email** Refers to the application short code suffix (last 4 digits). | |
+| **token** Token to be used on your Authorization header. | Required |
+| **exp** Expiration date of your token. | |
+| **email** Refers to the email of your account on IVES. | |
 
 ###### Error Response
 
@@ -72,6 +71,13 @@ curl -X POST \
     "error": "unauthorized"
 }
 ```
+
+###### Response Parameters
+
+| Parameter 			 | Usage    |
+| -----------------------|----------|
+| **error** Invalid account credential. | |
+
 
 INPROGRESS
 ========================
