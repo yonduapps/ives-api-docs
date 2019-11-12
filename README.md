@@ -15,10 +15,9 @@ Use <span class="method">POST</span> method on this URI:
 
 ###### Representation Formats
 
-For the IVES API, it is implemented
-using application/json.
+For the IVES API, it is implemented using application/json.
 
-###### Request Body or Payload Parameters
+###### Request Parameters
 
 | Parameter | Usage |
 | ----------|-------|
@@ -86,7 +85,7 @@ Call flows or IVR Trees that are already created and to be used by campaign.
 
 **Note: API calls must include the Authorization header token**
 
-### Call Flow / IVR Trees - listing, filtering and sorting
+### Call Flows / IVR Trees - listing, filtering and sorting
 
 Use <span class="method">GET</span> method on this URI:
 ```
@@ -98,7 +97,7 @@ Use <span class="method">GET</span> method on this URI:
 For the IVES API, it is implemented
 using application/json.
 
-###### Request Body or Payload Parameters
+###### Request Parameters
 
 | Parameter | Usage |
 | ----------|-------|
@@ -179,7 +178,7 @@ curl -X GET \
 | **per_page** | desired count of returned collection per page. |
 | **current_page** | current page you are in. |
 
-**Call flow data**
+**Call flow / Ivr Tree data**
 
 | Parameter 			 | Description    |
 | --------------|----------------|
@@ -209,6 +208,96 @@ curl -X GET \
 | **status** | Failed. |
 | **error** | Error messages |
 
+### Specific Call Flow / Ivr Tree
+
+Use <span class="method">GET</span> method on this URI:
+```
+/api/v1/ivr_trees/:id
+```
+
+###### Representation Formats
+
+For the IVES API, it is implemented using application/json.
+
+###### Request Parameters
+
+| Parameter | Usage |
+| ----------|-------|
+| **id** refers to call flow / ivr tree id. | Required |
+
+###### Sample POST Request using Postman
+**Note: API calls must include the Authorization header token**
+
+```
+curl -X GET \
+  https://staging.ives.ph/api/v1/ivr_trees/16 \
+  -H 'Accept: */*' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2LCJleHAiOjE1NzM2MTM5NTh9.YSjlDJEYvMCVckShzHGYuRr43IQkMUAFBKSS5SXiDj8' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Connection: keep-alive' \
+  -H 'Cookie: _ives_session=c0ZieVFWc3diMjQvYllLK3pZTFJMMTFmSmh5ZlliYkVpeTZMZTIwS0VHUXFBUlR2cW10RGlzL3M5aVo2eWFrQUdGWkQ5M2JNRGhOMnVnVktvT09CYzZ0NGU2RkJCakZ6bHNScmdNZnJCMnNFVFBQa1VyZ21UazRocTJQT2JUT2hjdjgrald1Y0NRemozS1RrVllqdDhZVWc1NCsydllHcmRNdkNnU0pkN2VHMXZ4Q1F4R1U5M0pxMy95VTJoUmpYT1pHNHNZNk5YMkI1YUZJaWtkTVhJSTZpS0hseCtmU0MrZGp3OE1uODA1dXdpUE9XWjhlR3E4aGxPeDRmbmJqSzhvVW9mSVNaa0duMHkrdEdVdDdWSGozTDNXeDVUempUbjFJZHQzRjVKcFJvOWNZSnM4bElRVi92Z2FxcjZSNTUtLWEzTjhyS2lrNGRQUG9DbTJ3UE5Wamc9PQ%3D%3D--20e35dcad84ef90fcdde9676fdb37b4737fccbd0' \
+  -H 'Host: staging.ives.ph' \
+  -H 'Postman-Token: b06b4a92-ae94-4ec6-8e5f-c3732092c529,05e40462-1bed-4f33-9d56-e5d3f564d0d8' \
+  -H 'User-Agent: PostmanRuntime/7.19.0' \
+  -H 'cache-control: no-cache'
+```
+
+###### Sample Successful POST Response
+
+```javascript
+{
+    "status": "success",
+    "data": {
+        "id": 16,
+        "account_id": 6,
+        "name": "CallOut - CF 1",
+        "caller_id": "9568916933",
+        "non_globe_caller_id": "9568916933",
+        "sms_masking": "IVES",
+        "variables": "mobile",
+        "created_at": "2019-06-28T15:01:08.946+08:00",
+        "voice": "male"
+    }
+}
+```
+
+###### Response Description
+
+| Parameter 			 | Description    |
+| --------------|----------------|
+| **status** | status or request if success or false. |
+| **data** | collections or specific object. |
+
+**Call flow / Ivr Tree data**
+
+| Parameter 			 | Description    |
+| --------------|----------------|
+| **id** | Id of call flow / ivr tree. |
+| **account_id** | account id that the ivr tree belongs. |
+| **name** | call flow / ivr tree name.  |
+| **caller_id** | call flow / ivr tree caller_id. |
+| **non_globe_caller_id** | call flow / ivr tree non_globe_caller_id. |
+| **sms_masking** | call flow / ivr tree sms masking. |
+| **variables** | call flow / ivr tree variables used. |
+| **created_at** | when call flow / ivr tree is created |
+| **voice** | call flow / ivr tree voice **female** or **male**. |
+
+###### Error Response
+
+```javascript
+{
+    "status": "failed",
+    "errors": "Couldn't find IvrTree with 'id'=145"
+}
+```
+
+###### Response Description
+
+| Parameter 			 | Description    |
+| -----------------------|----------------|
+| **status** | Failed. |
+| **error** | Error messages |
 
 INPROGRESS
 ========================
@@ -225,7 +314,7 @@ using application/json.
 | _string_ **senderAddress** refers to the application short code suffix (last 4 digits) | Required |
 | _string_ **access_token** which contains security information for transacting with a subscriber. Subscriber needs to grant an app first via SMS or Web Form Subscriber Consent Workflow. | Required |
 
-###### Request Body or Payload Parameters
+###### Request Parameters
 
 | Parameter        | Usage |
 | -----------------|-------|
@@ -497,7 +586,7 @@ curl -X POST
 }
 ```
 
-###### Request Body or Payload Parameters
+###### Request Parameters
 
 | Parameter | Usage |
 |-----------|----------|
