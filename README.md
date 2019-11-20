@@ -1,21 +1,21 @@
-Getting Started
+IVES API
 ========================
 
-**Subscriber Consent Workflow**
+**API Security**
 
 Access Tokens are required in order to navigate and do transactions on IVES.
-To get the access token, the subscriber needs to login via **POST request**:
+To get the access token, the subscriber needs to generate one via **POST** request:
 
-### Get an Access token
+### Generate an Access token
 
 Use <span class="method">POST</span> method on this URI:
 ```
-/api/v1/auth/login
+https://ives.ph/api/v1/auth/login
 ```
 
 ###### Representation Formats
 
-For the IVES API, it is implemented using application/json.
+For the IVES API, it is implemented using application/x-www-form-urlencoded.
 
 ###### Request Parameters
 
