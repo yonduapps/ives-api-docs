@@ -112,7 +112,7 @@ using application/json.
 | _string_ **page** page of collections | Optional |
 
 
-###### Sample POST Request using Postman
+###### Sample GET Request using Postman
 **Note: API calls must include the Authorization header token**
 
 ```
@@ -130,7 +130,7 @@ curl -X GET \
   -H 'cache-control: no-cache'
 ```
 
-###### Sample Successful POST Response
+###### Sample Successful GET Response
 
 ```javascript
 {
@@ -225,7 +225,7 @@ For the IVES API, it is implemented using application/json.
 | ----------|-------|
 | **id** refers to call flow / ivr tree id. | Required |
 
-###### Sample POST Request using Postman
+###### Sample GET Request using Postman
 **Note: API calls must include the Authorization header token**
 
 ```
@@ -243,7 +243,7 @@ curl -X GET \
   -H 'cache-control: no-cache'
 ```
 
-###### Sample Successful POST Response
+###### Sample Successful GET Response
 
 ```javascript
 {
